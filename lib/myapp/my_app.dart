@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const AuthPage(),
+      home: const MainPage(),
       routes: {
         '/reg_page': (context) => const RegPage(),
         '/forgot_pass_page': (context) => const ForgotPassPage(),

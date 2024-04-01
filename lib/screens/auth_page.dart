@@ -75,37 +75,9 @@ class _AuthPageState extends State<AuthPage> {
                     ),
                   ),
                 ),
+                MyTextField(hint: "Пароль",),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: SizedBox(
-                    height: 50,
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration(
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 50),
-                          hintFadeDuration: Durations.medium2,
-                          prefixIcon: const Icon(
-                            Icons.password_rounded,
-                            color: Colors.black38,
-                          ),
-                          fillColor: Colors.white,
-                          filled: true,
-                          hintText: "Пароль",
-                          hintStyle: const TextStyle(color: Colors.black38),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide:
-                                  const BorderSide(color: Colors.white)),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide:
-                                  const BorderSide(color: Colors.white))),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 40),
+                  padding: const EdgeInsets.only(top: 40, bottom: 20),
                   child: ElevatedButton(
                     onPressed: () {},
                     child: const Text(
@@ -125,8 +97,11 @@ class _AuthPageState extends State<AuthPage> {
                             color: Color.fromRGBO(65, 51, 122, 1),
                             fontWeight: FontWeight.normal),
                       ),
-                      TextButton(
-                        onPressed: () {},
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      GestureDetector(
+                        onTap: () {},
                         child: const Text(
                           'Восстановить',
                           style: TextStyle(
@@ -168,6 +143,47 @@ class _AuthPageState extends State<AuthPage> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class MyTextField extends StatelessWidget {
+  final String hint;
+  const MyTextField({
+    super.key,
+    required this.hint
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 40),
+      child: SizedBox(
+        height: 50,
+        child: TextField(
+          textAlign: TextAlign.center,
+          decoration: InputDecoration(
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 50),
+              hintFadeDuration: Durations.medium2,
+              prefixIcon: const Icon(
+                Icons.password_rounded,
+                color: Colors.black38,
+              ),
+              fillColor: Colors.white,
+              filled: true,
+              hintText: hint,
+              hintStyle: const TextStyle(color: Colors.black38),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide:
+                      const BorderSide(color: Colors.white)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide:
+                      const BorderSide(color: Colors.white))),
         ),
       ),
     );

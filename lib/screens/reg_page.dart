@@ -134,7 +134,7 @@ class _RegPageState extends State<RegPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 40),
+                  padding: const EdgeInsets.only(top: 40, bottom: 20),
                   child: ElevatedButton(
                     onPressed: () {},
                     child: const Text(
@@ -154,8 +154,13 @@ class _RegPageState extends State<RegPage> {
                             color: Color.fromRGBO(65, 51, 122, 1),
                             fontWeight: FontWeight.normal),
                       ),
-                      TextButton(
-                        onPressed: () {},
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
                         child: const Text(
                           'Авторизоваться',
                           style: TextStyle(
