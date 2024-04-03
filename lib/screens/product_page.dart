@@ -3,6 +3,7 @@ import 'package:blueberry/models/product_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class ProductPage extends StatelessWidget {
   final String productArticle;
@@ -10,7 +11,7 @@ class ProductPage extends StatelessWidget {
 
   ProductModel getProduct() {
     ProductModel? product;
-    for (var item in ProductModel.products) {
+    for (var item in ProductModel.getProducts()) {
       if (item.productArticle == productArticle) {
         product = item;
       }
@@ -52,7 +53,10 @@ class ProductPage extends StatelessWidget {
                       topRight: Radius.circular(10),
                       bottomLeft: Radius.circular(10),
                     ),
-                    child: Image.network(product.productUrlImage),
+                    child: FadeInImage.memoryNetwork(
+                      placeholder: kTransparentImage,
+                      image: product.productUrlImage,
+                    ),
                   ),
                 ),
                 Padding(

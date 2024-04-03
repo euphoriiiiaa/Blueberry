@@ -2,6 +2,7 @@ import 'package:blueberry/components/first_page.dart';
 import 'package:blueberry/models/product_model.dart';
 import 'package:blueberry/screens/auth_page.dart';
 import 'package:blueberry/screens/reg_page.dart';
+import 'package:blueberry/screens/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -11,6 +12,7 @@ class MainPage extends StatefulWidget {
   @override
   State<MainPage> createState() => _MainPageState();
 }
+
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
@@ -23,7 +25,7 @@ class _MainPageState extends State<MainPage> {
         children: [
           FirstPage(products: products),
           const AuthPage(),
-          const RegPage()
+          const SettingsPage()
         ],
         onPageChanged: (page) {
           setState(() {
@@ -35,9 +37,11 @@ class _MainPageState extends State<MainPage> {
         onTabChange: (page) {
           setState(() {
             _selectedIndex = page;
-            _pageController.animateToPage(page, duration: Durations.medium3, curve: Curves.easeInToLinear);
+            _pageController.animateToPage(page,
+                duration: Durations.medium3, curve: Curves.easeInOutCirc);
           });
         },
+        tabMargin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         selectedIndex: _selectedIndex,
         color: Colors.white,
         gap: 8,

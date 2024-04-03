@@ -1,5 +1,6 @@
 import 'package:blueberry/screens/product_page.dart';
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class ProductItem extends StatefulWidget {
   final String productUrlImage;
@@ -57,8 +58,9 @@ class _ProductItemState extends State<ProductItem> {
           ),
           ClipRRect(
             borderRadius: BorderRadius.circular(30),
-            child: Image.network(
-              widget.productUrlImage,
+            child: FadeInImage.memoryNetwork(
+              placeholder: kTransparentImage,
+              image: widget.productUrlImage,
               fit: BoxFit.cover,
               width: 300,
               height: 350,

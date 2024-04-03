@@ -1,4 +1,3 @@
-import 'package:blueberry/screens/auth_page.dart';
 import 'package:blueberry/screens/forgot_pass_page.dart';
 import 'package:blueberry/screens/main_page.dart';
 import 'package:blueberry/screens/reg_page.dart';

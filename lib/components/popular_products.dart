@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:blueberry/components/product_item_vertical.dart';
 import 'package:blueberry/models/product_model.dart';
