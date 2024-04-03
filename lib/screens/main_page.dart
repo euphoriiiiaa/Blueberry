@@ -1,6 +1,7 @@
 import 'package:blueberry/components/first_page.dart';
 import 'package:blueberry/models/product_model.dart';
 import 'package:blueberry/screens/auth_page.dart';
+import 'package:blueberry/screens/orders_page.dart';
 import 'package:blueberry/screens/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -23,7 +24,7 @@ class _MainPageState extends State<MainPage> {
         controller: _pageController,
         children: [
           FirstPage(products: products),
-          const AuthPage(),
+          const OrdersPage(),
           const SettingsPage()
         ],
         onPageChanged: (page) {
@@ -40,7 +41,7 @@ class _MainPageState extends State<MainPage> {
                 duration: Durations.medium3, curve: Curves.easeInOutCirc);
           });
         },
-        tabMargin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        tabMargin: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
         selectedIndex: _selectedIndex,
         color: Colors.white,
         gap: 8,
