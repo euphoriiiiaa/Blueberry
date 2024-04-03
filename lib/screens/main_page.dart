@@ -1,7 +1,6 @@
 import 'package:blueberry/components/first_page.dart';
 import 'package:blueberry/models/product_model.dart';
 import 'package:blueberry/screens/auth_page.dart';
-import 'package:blueberry/screens/reg_page.dart';
 import 'package:blueberry/screens/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
