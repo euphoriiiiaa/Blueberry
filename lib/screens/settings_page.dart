@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:blueberry/models/data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,20 +11,21 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
+        automaticallyImplyLeading: false,
+        title: Row(
           children: [
             Text(
-              "Привет, username!",
-              style: TextStyle(
+              "Привет, ${Data.fioClient}!",
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
                 fontSize: 26
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
-            Icon(
+            const Icon(
               Icons.person_4,
               color: Colors.white,
               size: 34,
@@ -118,7 +120,9 @@ class SettingsPage extends StatelessWidget {
               ],
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+              },
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 20),
                 child: Row(

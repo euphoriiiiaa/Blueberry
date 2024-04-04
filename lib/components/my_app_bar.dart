@@ -11,6 +11,7 @@ class MyAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      automaticallyImplyLeading: false,
       floating: true,
       shape: const ContinuousRectangleBorder(
         borderRadius: BorderRadius.only(

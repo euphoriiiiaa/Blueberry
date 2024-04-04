@@ -1,4 +1,10 @@
+import 'dart:developer';
+
+import 'package:blueberry/components/supabase_comp.dart';
+import 'package:blueberry/models/data.dart';
+import 'package:blueberry/screens/main_page.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -7,7 +13,71 @@ class AuthPage extends StatefulWidget {
   State<AuthPage> createState() => _AuthPageState();
 }
 
+late SupabaseClient client;
+TextEditingController _loginController = TextEditingController();
+TextEditingController _passwordController = TextEditingController();
+
 class _AuthPageState extends State<AuthPage> {
+  @override
+  void initState() {
+    SupabaseComp.initialize();
+    client = SupabaseComp.supabase;
+    super.initState();
+  }
+
+  void attemptToLogin() async {
+    try {
+      if ((_loginController.text.isEmpty && _passwordController.text.isEmpty) ||
+          (_loginController.text.isEmpty || _passwordController.text.isEmpty)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            showCloseIcon: true,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            backgroundColor: Colors.red,
+            content: Text(
+              "Заполните все поля.",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+        return;
+      }
+      var clients = await client
+          .from('clients')
+          .select('login_client, password_client, fullname_client');
+      for (var item in clients) {
+        if (item['login_client'] == _loginController.text &&
+            item['password_client'] == _passwordController.text) {
+              Data.fioClient = item['fullname_client'];
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              showCloseIcon: true,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              backgroundColor: Colors.red,
+              content: Text(
+                "Добро пожаловать, ${item['fullname_client']}!",
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          );
+          _loginController.clear();
+          _passwordController.clear();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MainPage(),
+            ),
+          );
+          break;
+        }
+      }
+    } catch (e) {
+      log('ошибка ${e.toString()}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,6 +120,7 @@ class _AuthPageState extends State<AuthPage> {
                   child: SizedBox(
                     height: 50,
                     child: TextField(
+                      controller: _loginController,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                           contentPadding:
@@ -74,11 +145,13 @@ class _AuthPageState extends State<AuthPage> {
                     ),
                   ),
                 ),
-                MyTextField(hint: "Пароль",),
+                const MyTextField(
+                  hint: "Пароль",
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 40, bottom: 20),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: attemptToLogin,
                     child: const Text(
                       'ВОЙТИ',
                       style: TextStyle(fontWeight: FontWeight.bold),
@@ -148,13 +221,15 @@ class _AuthPageState extends State<AuthPage> {
   }
 }
 
-class MyTextField extends StatelessWidget {
+class MyTextField extends StatefulWidget {
   final String hint;
-  const MyTextField({
-    super.key,
-    required this.hint
-  });
+  const MyTextField({super.key, required this.hint});
 
+  @override
+  State<MyTextField> createState() => _MyTextFieldState();
+}
+
+class _MyTextFieldState extends State<MyTextField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -162,10 +237,10 @@ class MyTextField extends StatelessWidget {
       child: SizedBox(
         height: 50,
         child: TextField(
+          controller: _passwordController,
           textAlign: TextAlign.center,
           decoration: InputDecoration(
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 50),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 50),
               hintFadeDuration: Durations.medium2,
               prefixIcon: const Icon(
                 Icons.password_rounded,
@@ -173,16 +248,14 @@ class MyTextField extends StatelessWidget {
               ),
               fillColor: Colors.white,
               filled: true,
-              hintText: hint,
+              hintText: widget.hint,
               hintStyle: const TextStyle(color: Colors.black38),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide:
-                      const BorderSide(color: Colors.white)),
+                  borderSide: const BorderSide(color: Colors.white)),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),
-                  borderSide:
-                      const BorderSide(color: Colors.white))),
+                  borderSide: const BorderSide(color: Colors.white))),
         ),
       ),
     );

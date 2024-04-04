@@ -1,3 +1,4 @@
+import 'package:blueberry/screens/auth_page.dart';
 import 'package:blueberry/screens/forgot_pass_page.dart';
 import 'package:blueberry/screens/main_page.dart';
 import 'package:blueberry/screens/reg_page.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const MainPage(),
+      home: const AuthPage(),
       routes: {
         '/reg_page': (context) => const RegPage(),
         '/forgot_pass_page': (context) => const ForgotPassPage(),
