@@ -1,6 +1,5 @@
 import 'package:blueberry/models/product_model.dart';
 import 'package:blueberry/screens/product_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {

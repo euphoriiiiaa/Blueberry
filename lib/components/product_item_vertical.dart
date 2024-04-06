@@ -46,7 +46,12 @@ class _ProductItemVerticalState extends State<ProductItemVertical> {
               );
             },
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      bottomRight: Radius.circular(50),
+                      topRight: Radius.circular(10),
+                      bottomLeft: Radius.circular(10),
+                    ),
               child: FadeInImage.memoryNetwork(
                 placeholder: kTransparentImage,
                 image: widget.productUrlImage,

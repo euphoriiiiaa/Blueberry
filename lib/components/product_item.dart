@@ -57,13 +57,21 @@ class _ProductItemState extends State<ProductItem> {
             ),
           ),
           ClipRRect(
-            borderRadius: BorderRadius.circular(30),
-            child: FadeInImage.memoryNetwork(
-              placeholder: kTransparentImage,
-              image: widget.productUrlImage,
-              fit: BoxFit.cover,
-              width: 300,
-              height: 350,
+            borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      bottomRight: Radius.circular(50),
+                      topRight: Radius.circular(10),
+                      bottomLeft: Radius.circular(10),
+                    ),
+            child: Hero(
+              tag: ValueKey<String>(widget.productUrlImage),
+              child: FadeInImage.memoryNetwork(
+                placeholder: kTransparentImage,
+                image: widget.productUrlImage,
+                fit: BoxFit.cover,
+                width: 300,
+                height: 350,
+              ),
             ),
           ),
           Padding(

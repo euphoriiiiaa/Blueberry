@@ -1,8 +1,7 @@
 import 'package:blueberry/components/button_to_cart.dart';
 import 'package:blueberry/models/product_model.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:blueberry/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class ProductPage extends StatelessWidget {
@@ -40,7 +39,7 @@ class ProductPage extends StatelessWidget {
                   decoration: BoxDecoration(
                       boxShadow: const [
                         BoxShadow(
-                            color: Color.fromARGB(255, 156, 228, 222),
+                            color: MyColors.ligthBlue,
                             blurRadius: 20,
                             offset: Offset(5, 10))
                       ],
@@ -53,9 +52,12 @@ class ProductPage extends StatelessWidget {
                       topRight: Radius.circular(10),
                       bottomLeft: Radius.circular(10),
                     ),
-                    child: FadeInImage.memoryNetwork(
-                      placeholder: kTransparentImage,
-                      image: product.productUrlImage,
+                    child: Hero(
+                      tag: ValueKey<String>(product.productUrlImage),
+                      child: FadeInImage.memoryNetwork(
+                        placeholder: kTransparentImage,
+                        image: product.productUrlImage,
+                      ),
                     ),
                   ),
                 ),
@@ -79,7 +81,7 @@ class ProductPage extends StatelessWidget {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: const Color(0xffC2EFEB),
+                          color: MyColors.ligthBlue,
                           borderRadius: BorderRadius.circular(14),
                         ),
                         padding: const EdgeInsets.symmetric(
@@ -87,7 +89,7 @@ class ProductPage extends StatelessWidget {
                         child: Text(
                           "${product.productCost.toString()} ₽",
                           style: const TextStyle(
-                              color: Color(0xff41337A),
+                              color: MyColors.darkPurple,
                               fontSize: 22,
                               fontWeight: FontWeight.bold),
                         ),

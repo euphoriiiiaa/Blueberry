@@ -1,7 +1,8 @@
-import 'package:blueberry/components/first_page.dart';
+import 'package:blueberry/components/products_page.dart';
 import 'package:blueberry/models/product_model.dart';
 import 'package:blueberry/screens/orders_page.dart';
 import 'package:blueberry/screens/settings_page.dart';
+import 'package:blueberry/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -20,9 +21,10 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
+        physics: const BouncingScrollPhysics(),
         controller: _pageController,
         children: [
-          FirstPage(products: products),
+          ProductsPage(products: products),
           const OrdersPage(),
           const SettingsPage()
         ],
@@ -32,36 +34,40 @@ class _MainPageState extends State<MainPage> {
           });
         },
       ),
-      bottomNavigationBar: GNav(
-        onTabChange: (page) {
-          setState(() {
-            _selectedIndex = page;
-            _pageController.animateToPage(page,
-                duration: Durations.medium3, curve: Curves.easeInOutCirc);
-          });
-        },
-        tabMargin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        selectedIndex: _selectedIndex,
-        color: Colors.white,
-        gap: 8,
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-        activeColor: const Color(0xffC2EFEB),
-        tabBackgroundColor: const Color(0xffC2EFEB).withOpacity(0.2),
-        tabs: const [
-          GButton(
-            icon: Icons.home,
-            text: 'Главная',
-          ),
-          GButton(
-            icon: Icons.monetization_on,
-            text: 'Заказы',
-          ),
-          GButton(
-            icon: Icons.settings,
-            text: 'Настройки',
-          ),
-        ],
-      ),
+      bottomNavigationBar: myBotNavBar(),
+    );
+  }
+
+  GNav myBotNavBar() {
+    return GNav(
+      onTabChange: (page) {
+        setState(() {
+          _selectedIndex = page;
+          _pageController.animateToPage(page,
+              duration: Durations.medium3, curve: Curves.easeInOutCirc);
+        });
+      },
+      tabMargin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      selectedIndex: _selectedIndex,
+      color: Colors.white,
+      gap: 8,
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+      activeColor: MyColors.ligthBlue,
+      tabBackgroundColor: MyColors.ligthBlue.withOpacity(0.2),
+      tabs: const [
+        GButton(
+          icon: Icons.home,
+          text: 'Главная',
+        ),
+        GButton(
+          icon: Icons.monetization_on,
+          text: 'Заказы',
+        ),
+        GButton(
+          icon: Icons.settings,
+          text: 'Настройки',
+        ),
+      ],
     );
   }
 }

@@ -1,8 +1,11 @@
 import 'dart:developer';
 
-import 'package:blueberry/components/supabase_comp.dart';
+import 'package:blueberry/functions/my_functions.dart';
+import 'package:blueberry/models/supabase_comp.dart';
 import 'package:blueberry/models/data.dart';
+import 'package:blueberry/screens/forgot_pass_page.dart';
 import 'package:blueberry/screens/main_page.dart';
+import 'package:blueberry/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -29,18 +32,7 @@ class _AuthPageState extends State<AuthPage> {
     try {
       if ((_loginController.text.isEmpty && _passwordController.text.isEmpty) ||
           (_loginController.text.isEmpty || _passwordController.text.isEmpty)) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            showCloseIcon: true,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            backgroundColor: Colors.red,
-            content: Text(
-              "Заполните все поля.",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        );
+        MyFunctions.myToast("Заполните все поля.", Colors.red, context);
         return;
       }
       var clients = await client
@@ -49,27 +41,24 @@ class _AuthPageState extends State<AuthPage> {
       for (var item in clients) {
         if (item['login_client'] == _loginController.text &&
             item['password_client'] == _passwordController.text) {
-              Data.fioClient = item['fullname_client'];
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              showCloseIcon: true,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              backgroundColor: Colors.red,
-              content: Text(
-                "Добро пожаловать, ${item['fullname_client']}!",
-                style: const TextStyle(color: Colors.white),
-              ),
-            ),
+          Data.fioClient = (item['fullname_client'] as String).split(' ')[1];
+          if (mounted) {
+            MyFunctions.myToast(
+            "Добро пожаловать, ${(item['fullname_client'] as String).trim()}!",
+            Colors.green,
+            context,
           );
+          }
           _loginController.clear();
           _passwordController.clear();
-          Navigator.push(
+          if (mounted) {
+            Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => MainPage(),
+              builder: (context) => const MainPage(),
             ),
-          );
+          ); 
+          }
           break;
         }
       }
@@ -98,21 +87,22 @@ class _AuthPageState extends State<AuthPage> {
                 const Text(
                   'Добро пожаловать!',
                   style: TextStyle(
-                      color: Color.fromRGBO(65, 51, 122, 1),
+                      color: MyColors.darkPurple,
                       fontSize: 30,
                       fontWeight: FontWeight.bold),
                 ),
                 const Text(
                   textAlign: TextAlign.start,
                   'Для продолжения необходимо авторизоваться',
-                  style: TextStyle(color: Color.fromRGBO(65, 51, 122, 1)),
+                  style: TextStyle(
+                    color: MyColors.darkPurple,
+                  ),
                 ),
                 const Text(
                   textAlign: TextAlign.start,
                   'или зарегистрироваться',
                   style: TextStyle(
-                      color: Color.fromRGBO(65, 51, 122, 1),
-                      fontWeight: FontWeight.w600),
+                      color: MyColors.darkPurple, fontWeight: FontWeight.w600),
                 ),
                 Padding(
                   padding:
@@ -145,8 +135,36 @@ class _AuthPageState extends State<AuthPage> {
                     ),
                   ),
                 ),
-                const MyTextField(
-                  hint: "Пароль",
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: SizedBox(
+                    height: 50,
+                    child: TextField(
+                      obscureText: true,
+                      controller: _passwordController,
+                      textAlign: TextAlign.center,
+                      decoration: InputDecoration(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 50),
+                          hintFadeDuration: Durations.medium2,
+                          prefixIcon: const Icon(
+                            Icons.password_rounded,
+                            color: Colors.black38,
+                          ),
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintText: "Пароль",
+                          hintStyle: const TextStyle(color: Colors.black38),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide:
+                                  const BorderSide(color: Colors.white)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide:
+                                  const BorderSide(color: Colors.white))),
+                    ),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 40, bottom: 20),
@@ -166,18 +184,24 @@ class _AuthPageState extends State<AuthPage> {
                       const Text(
                         'Забыли пароль?',
                         style: TextStyle(
-                            color: Color.fromRGBO(65, 51, 122, 1),
+                            color: MyColors.darkPurple,
                             fontWeight: FontWeight.normal),
                       ),
                       const SizedBox(
                         width: 10,
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ForgotPassPage()));
+                        },
                         child: const Text(
                           'Восстановить',
                           style: TextStyle(
-                              color: Color.fromRGBO(65, 51, 122, 1),
+                              color: MyColors.darkPurple,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -192,7 +216,7 @@ class _AuthPageState extends State<AuthPage> {
                       const Text(
                         'Еще нет аккаунта?',
                         style: TextStyle(
-                            color: Color.fromRGBO(65, 51, 122, 1),
+                            color: MyColors.darkPurple,
                             fontWeight: FontWeight.normal),
                       ),
                       const SizedBox(
@@ -205,7 +229,7 @@ class _AuthPageState extends State<AuthPage> {
                         child: const Text(
                           'Создать',
                           style: TextStyle(
-                              color: Color.fromRGBO(65, 51, 122, 1),
+                              color: MyColors.darkPurple,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -237,6 +261,7 @@ class _MyTextFieldState extends State<MyTextField> {
       child: SizedBox(
         height: 50,
         child: TextField(
+          obscureText: true,
           controller: _passwordController,
           textAlign: TextAlign.center,
           decoration: InputDecoration(
@@ -248,7 +273,7 @@ class _MyTextFieldState extends State<MyTextField> {
               ),
               fillColor: Colors.white,
               filled: true,
-              hintText: widget.hint,
+              hintText: "Пароль",
               hintStyle: const TextStyle(color: Colors.black38),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),

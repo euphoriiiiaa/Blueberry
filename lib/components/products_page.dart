@@ -4,8 +4,8 @@ import 'package:blueberry/components/popular_products.dart';
 import 'package:blueberry/models/product_model.dart';
 import 'package:flutter/material.dart';
 
-class FirstPage extends StatefulWidget {
-  const FirstPage({
+class ProductsPage extends StatefulWidget {
+  const ProductsPage({
     super.key,
     required this.products,
   });
@@ -13,13 +13,14 @@ class FirstPage extends StatefulWidget {
   final List<ProductModel> products;
 
   @override
-  State<FirstPage> createState() => _FirstPageState();
+  State<ProductsPage> createState() => _ProductsPageState();
 }
 
-class _FirstPageState extends State<FirstPage> {
+class _ProductsPageState extends State<ProductsPage> {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
       slivers: [
         const MyAppBar(),
         PopularProducts(products: widget.products),

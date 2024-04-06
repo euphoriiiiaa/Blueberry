@@ -32,6 +32,7 @@ class PopularProducts extends StatelessWidget {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: products.length,
+              physics:  const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 return ProductItemVertical(
                   productArticle: products[index].productArticle,
